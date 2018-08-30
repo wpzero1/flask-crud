@@ -13,7 +13,7 @@ migrate = Migrate(app, db) #플라스크 더 편하게 쓰게하는 것
 
 @app.route("/")
 def index():
-    posts = Post.query.all()
+    posts = Post.query.all() #게시글 전부에 관련되기 때문에 복수를 쓴다.
     #sql문 SELECT * FROM posts 와 같은 문장
     
     return render_template("index.html",posts=posts)
@@ -29,7 +29,7 @@ def create():
     content = request.form.get('content')
     
     # DB에 저장
-    Post(title=title, content=content) #객체조작하는 것과 동일. =뒤쪽은 model.py에 있는 변수
+    post = Post(title=title, content=content) #객체조작하는 것과 동일. =뒤쪽은 model.py에 있는 변수. 게시글 하나를 저장하기 때문에 단수를 씀.
     db.session.add(post) #post 객체를 그대로 받기
     
     # 아래와같은 SQL문을 실행시키는 것과 같다
@@ -37,4 +37,14 @@ def create():
     # VALUES ('1번글', '1번내용')
     db.session.commit()
     return render_template("create.html", post=post)
+
+
+@app.route("/posts/<int:id>") #variable routing
+def read(id):
+    # DB에서 특정한 게시글을 가져와!(id값을 기준으로. 인자로 id를 넘겨야함)
+    post = Post.query.get(id) #쿼리문. id에 해당하는 것을 가져와서 변수에 담아줘라. Post 클래스의 메소드.
+    # SELECT * FROM posts WHERE id=1(특정값);
+    
+    return render_template("read.html", post=post) #사용자에게 보여주기 위하여 post를 post에 담아서 보내주기.
+    
     

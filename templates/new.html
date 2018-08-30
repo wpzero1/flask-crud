@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
-<form>
+<form action="/post" method="POST">
     제목 : <input type="text" name="title"/><br>
     내용 : <textarea name="content"></textarea><br>
-    <input type="subit" value="뿅!">
+    <input type="submit" value="뿅!">
 </form>
 
 {% endblock %}
