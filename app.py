@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 
 from models import * #model.py load
 
+
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql:///app' #나중에 Mysql쓰면 이부분이 바뀜
 app.config["SQLALCHEMY_TRACK_MODIFICATION"] = False #트레킹하는건데 메모리 많이 잡아먹어서 꺼둠
@@ -15,8 +16,9 @@ migrate = Migrate(app, db) #플라스크 더 편하게 쓰게하는 것
 
 @app.route("/")
 def index():
-    posts = Post.query.all() #게시글 전부에 관련되기 때문에 복수를 쓴다.
-    #sql문 SELECT * FROM posts 와 같은 문장
+    posts = Post.query.order_by(Post.id.desc()).all()  #최신순 정렬.  #게시글 전부에 관련되기 때문에 복수를 쓴다.
+    # sql문 SELECT * FROM posts; 와 같은 문장
+    # SELECT * FROM posts ORDER BY id DESC; (디폴트는 ASC)
     
     return render_template("index.html",posts=posts)
     
@@ -83,4 +85,35 @@ def update(id):
     # WHERE id = 2;
     # UPDATE posts SET title = "hihi"
     # WHERE id=2;
+
+# -> 타이틀이 1인거 필터
+# Post.query.filter_by(title = "1").all()
+# SELECT * FROM posts
+# WHERE title = '1';
+
+# -> 해당사항에 대한 개수 count
+# Post.query.filter_By(title="1").count()
+# SELECT COUNT(*) FROM posts
+# WHERE title = '1';
+
+# -> 타이틀이 1인거 하나만 필터
+# Post.query.filter_by(title = "1").first()
+# SELECT * FROM posts
+# WHERE title = '1' LIMIT 1;
+
+#  -> 1 아닌것만 필터
+# Post.query.filter(Post.title != "1").all()
+# SELECT * FROM posts
+# WHERE title != '1';
+
+#  -> 1이라는 글자가 들어간 것만 출력
+# Post.query.filter(Post.title.like("%1%")).all()
+# SELECT * FROM posts
+# WHERE title LIKE '%1%';
+
+#  -> 제목과 내용이 1인 글 필터
+# from sqlalchemy import and_, or_
+# Post.query.filter(and_(Post.title == "1", Post.content == "1")).all()                                                                           
+# SELECT * FROM posts
+# WHERE title = "1" AND content = "1";
 
