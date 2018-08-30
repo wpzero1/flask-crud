@@ -38,7 +38,7 @@ def create():
     # INSERT INTO posts (title, content)
     # VALUES ('1번글', '1번내용')
     db.session.commit()
-    return render_template("create.html", post=post)
+    return redirect("/")
 
 
 @app.route("/posts/<int:id>") #variable routing
@@ -56,7 +56,31 @@ def delete(id):
     # post 오브젝트 삭제하기
     db.session.delete(post)
     db.session.commit()
+    #sql문 : DELETE FROM posts WHERE id=2;
+    
     return redirect('/') #재요청. 처리하고 해당 페이지로 요청을 보낸다 (@app.route("/"가 실행) #flask에서 import
     
-#    return render_template("delete.html", post=post) #delete view 페이지로 넘겨주기. 여기서 index.html이라면 페이지가 "/posts/<int:id>/delete"로 유지
+    #return render_template("delete.html", post=post) #delete view 페이지로 넘겨주기. 여기서 index.html이라면 페이지가 "/posts/<int:id>/delete"로 유지
+
+#update는 특정 form값을 받아와야하고, 이걸 수정해야한다.
+@app.route("/posts/<int:id>/edit") #get 요청
+def edit(id):
+    post = Post.query.get(id)
+    
+    return render_template("edit.html", post=post)
+
+
+@app.route("/posts/<int:id>/update", methods=["POST"]) #post요청
+def update(id):
+    post = Post.query.get(id)
+    
+    post.title = request.form.get("title")
+    post.content = request.form.get("content")
+    db.session.commit()
+    return redirect("/posts/{}".format(post.id))
+    
+    # UPDATE posts SET title = "hihi"
+    # WHERE id = 2;
+    # UPDATE posts SET title = "hihi"
+    # WHERE id=2;
 
