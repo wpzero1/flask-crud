@@ -86,6 +86,8 @@ def update(id):
     # UPDATE posts SET title = "hihi"
     # WHERE id=2;
 
+#SQL 관련
+
 # -> 타이틀이 1인거 필터
 # Post.query.filter_by(title = "1").all()
 # SELECT * FROM posts

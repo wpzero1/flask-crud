@@ -1,16 +1,32 @@
 {% extends "layout.html" %}
 {% block body %}
 <!-- 작성된 게시물을 모두 보여주는 곳 -->
-<h1>게시판입니다!!</h1>
+<h1 class="text-center">게시판입니다!!</h1>
 <a href="/posts/new">글 쓰러가기</a>
 <hr>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">제목</th>
+      <th scope="col">내용</th>
+      <th scope="col">작성시간</th>
+      <th scope="col">글보기</th>
+    </tr>
+  </thead>
+  <tbody>
+<!-- 반복되는 것만 for문에 넣어주자 -->      
 {% for post in posts %}
-    <p>{{post.id}}번째 글</p>
-    <p>제목 : {{post.title}}</p>
-    <p>내용 : {{post.content}}</p>
-    <p>작성시간 : {{post.created_at}}</p>
-    <a href="/posts/{{post.id}}"> 글 보기</a>
-    <hr>
-{% endfor %}
 
+    <tr>
+      <th scope="row">{{post.id}}</th>
+      <td>{{post.title}}</td>
+      <td>{{post.content}}</td>
+      <td>{{post.created_at.strftime("%Y년 %m월 %d일 %H:%M")}}</td>
+      <td><a href="/posts/{{post.id}}">링크</a></td>
+    </tr>
+
+{% endfor %}
+    </tbody>
+</table>
 {% endblock %}

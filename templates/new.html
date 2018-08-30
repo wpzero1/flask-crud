@@ -1,9 +1,21 @@
 {% extends "layout.html" %}
 {% block body %}
-<form action="/post" method="POST">
-    제목 : <input type="text" name="title"/><br>
-    내용 : <textarea name="content"></textarea><br>
-    <input type="submit" value="뿅!">
-</form>
+<!--<form action="/post" method="POST">-->
+<!--    제목 : <input type="text" name="title"/><br>-->
+<!--    내용 : <textarea name="content"></textarea><br>-->
+<!--    <input type="submit" value="뿅!">-->
+<!--</form>-->
 
+<form action="/post" method="POST">
+  <div class="form-group">
+    <label for="exampleInputEmail1">제목</label>
+    <input type="text" name="title" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="제목 입력">
+    <small id="emailHelp" class="form-text text-muted">제목을 입력하세요</small>
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">내용</label>
+    <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">게시글 등록</button>
+</form>
 {% endblock %}
