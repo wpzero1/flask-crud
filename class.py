@@ -27,6 +27,7 @@ class Post:
     def __del__(self):
         print("글이 삭제되었습니다.")
     
+    #str과 repr 둘 중 어떤걸 쓸 것이냐.
     def __repr__(self):
         return '''
         제목 : {} 
