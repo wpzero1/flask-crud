@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # utf-8 인코딩 코드. 위에 주석이지만 특이하게 이건 먹힌다. 쉬뱅
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -51,10 +51,12 @@ def read(id):
     
 @app.route("/posts/<int:id>/delete")
 def delete(id):
-    
+    # DB에서 특정 게시글 가져오기
     post = Post.query.get(id)
+    # post 오브젝트 삭제하기
     db.session.delete(post)
     db.session.commit()
+    return redirect('/') #재요청. 처리하고 해당 페이지로 요청을 보낸다 (@app.route("/"가 실행) #flask에서 import
     
-    return render_template("delete.html", post=post)
+#    return render_template("delete.html", post=post) #delete view 페이지로 넘겨주기. 여기서 index.html이라면 페이지가 "/posts/<int:id>/delete"로 유지
 
