@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
+# utf-8 인코딩 코드. 위에 주석이지만 특이하게 이건 먹힌다. 쉬뱅
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-from models import * #model.py 불러오기
+from models import * #model.py load
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql:///app' #나중에 Mysql쓰면 이부분이 바뀜
@@ -47,4 +49,12 @@ def read(id):
     
     return render_template("read.html", post=post) #사용자에게 보여주기 위하여 post를 post에 담아서 보내주기.
     
+@app.route("/posts/<int:id>/delete")
+def delete(id):
     
+    post = Post.query.get(id)
+    db.session.delete(post)
+    db.session.commit()
+    
+    return render_template("delete.html", post=post)
+
