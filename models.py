@@ -10,6 +10,7 @@ class Post(db.Model): #약속이기 때문에 이건..
     title = db.Column(db.String)
     content = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
+    comments = db.relationship("Comment", backref = "post") #관계가 있다, back reference..
     
     def __init__(self, title, content): #생성자 만들기
         self.title = title
@@ -24,3 +25,15 @@ class Post(db.Model): #약속이기 때문에 이건..
 #     created_at DATETIME
 #     )
     
+
+class Comment(db.Model):
+    __tablename__ = "comments"
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String)
+    created_at = db.Column(db.DateTime)
+    
+    #FK
+    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), nullable = False)
+    def __init__(self, content):
+        self.content = content
+        self.created_at = datetime.datetime.now()
