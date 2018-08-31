@@ -10,7 +10,8 @@ class Post(db.Model): #약속이기 때문에 이건..
     title = db.Column(db.String)
     content = db.Column(db.Text)
     created_at = db.Column(db.DateTime)
-    comments = db.relationship("Comment", backref = "post") #관계가 있다, back reference..
+    comments = db.relationship("Comment", backref = "post") #comments는 한 게시판에 댓글이 1:다 / post는 하나에 걸리기 때문에.. 단 복수 주의
+    # 보통 sql에서는 관계가 있다라는 것을 알려줘야한다.(relation) back reference..
     
     def __init__(self, title, content): #생성자 만들기
         self.title = title

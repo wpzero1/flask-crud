@@ -8,4 +8,15 @@
 <p>작성시간 : {{post.created_at}}</p>
 <a href="/posts/{{post.id}}/edit">글 수정</a>
 <a href="/posts/{{post.id}}/delete">글 삭제</a>
+<hr>
+<form action="/posts/{{post.id}}/comment" method="POST">
+    <input type="text" name="content">
+    <input type="submit">
+</form>
+<hr>
+{% for comment in post.comments %}
+<p>{{comment.content}}</p>
+<p>{{comment.created_at}}</p>
+{% endfor %}
+
 {% endblock %}
